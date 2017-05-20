@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 2.8)
+project( torcs_data_collect )
+find_package( OpenCV  REQUIRED )
+find_package(HDF5 REQUIRED COMPONENTS C CXX)
+# find_package( python3.6  REQUIRED )
+# glog
+# find_package(Glog REQUIRED)
+# include_directories(BEFORE ${GLOG_INCLUDE_DIRS}) 
+add_executable( torcs_data_collect torcs_data_collect.cpp )
+target_link_libraries( torcs_data_collect ${OpenCV_LIBS} )
+target_link_libraries( torcs_data_collect libhdf5.so libhdf5_cpp.so)
