@@ -74,6 +74,15 @@ struct shared_use_st
     double steerCmd;
     double accelCmd;
     double brakeCmd;
+
+    //by Yuanwei
+    double pofCarX;
+    double pofCarY;
+    double pofTrackX;
+    double pofTrackY;
+    double radiusofSeg;
+    int typeofSeg;
+    //end by Yuanwei
 };
 
 // const H5std_string FILE_NAME("test.h5");
@@ -106,7 +115,7 @@ int main(int argc, char** argv) {
     printf("\n********** Memory sharing started, attached at %X **********\n", shm); 
 
     shared = (struct shared_use_st*)shm;  
-    shared->written = 1;
+    shared->written = 0;
     shared->control = 0;
     shared->pause = 1;
     shared->fast = 0.0;
@@ -134,6 +143,15 @@ int main(int argc, char** argv) {
     shared->steerCmd = 0.0;
     shared->accelCmd = 0.0;
     shared->brakeCmd = 0.0;  
+
+    //add by Yuanwei
+    shared->pofCarX = 0.0;
+    shared->pofCarY = 0.0;
+    shared->pofTrackX = 0.0;
+    shared->pofTrackY = 0.0;
+    shared->radiusofSeg = 0.0;
+    shared->typeofSeg = 1;
+    //end by Yuanwei
     ////////////////////// END set up memory sharing
 
     ////////////////////// set up opencv
@@ -171,7 +189,7 @@ int main(int argc, char** argv) {
     // delete [] data;
 
      //string fileName = "a.csv";
-    const char*  fileName = "a.csv";
+    const char*  fileName = "error_info_new.csv";
 
     ofstream file(fileName);
     // for (int i = 0; i < 100; i++)
@@ -189,6 +207,7 @@ int main(int argc, char** argv) {
 
        if (shared->written == 1) {  // the new image data is ready to be read
 
+        shared->written = 0;
          frame++;
          printf("frame: %d \n", frame);
 
@@ -212,19 +231,28 @@ int main(int argc, char** argv) {
         // Mat gray_image = Mat(result,true);
         // imwrite( buffer, gray_image );
 
-        imwrite( buffer, image );
-        file<<frame<<","<<buffer<<","<<shared->angle<<","<<shared->speed<<","<<shared->steerCmd<<","<<shared->accelCmd<<","<<shared->brakeCmd<<"\n";
+        //write the data to image and csv
+        //imwrite( buffer, image );
+
+        file<<frame<<","<<buffer<<","
+        <<shared->steerCmd<<","
+        <<shared->speed<<","
+        <<shared->accelCmd<<","
+        <<shared->brakeCmd<<","
+        <<shared->pofCarX<<","
+        <<shared->pofCarY<<","
+        <<shared->pofTrackX<<","
+        <<shared->pofTrackY<<","
+        <<shared->toMiddle<<","
+        <<shared->radiusofSeg<<","
+        <<shared->typeofSeg<<"\n";
+
+        printf("shared->steerCmd: %f \n", shared->steerCmd);
 
          cvResize(screenRGB,resizeRGB);
  
          cvShowImage("Image from TORCS", resizeRGB);
          cvWaitKey(1);
-
-         if(frame>10000)
-         {
-            break;
-         }
-
      }
          //printf(" shared->steerCmd: %f  \n",shared->steerCmd );
      }
