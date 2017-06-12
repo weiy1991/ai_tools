@@ -189,7 +189,7 @@ int main(int argc, char** argv) {
     // delete [] data;
 
      //string fileName = "a.csv";
-    const char*  fileName = "error_info_new.csv";
+    const char*  fileName = "test_training.csv";
 
     ofstream file(fileName);
     // for (int i = 0; i < 100; i++)
@@ -232,7 +232,7 @@ int main(int argc, char** argv) {
         // imwrite( buffer, gray_image );
 
         //write the data to image and csv
-        //imwrite( buffer, image );
+        imwrite( buffer, image );
 
         file<<frame<<","<<buffer<<","
         <<shared->steerCmd<<","
