@@ -189,7 +189,7 @@ int main(int argc, char** argv) {
     // delete [] data;
 
      //string fileName = "a.csv";
-    const char*  fileName = "test_training.csv";
+    const char*  fileName = "testing.csv";
 
     ofstream file(fileName);
     // for (int i = 0; i < 100; i++)
@@ -219,13 +219,15 @@ int main(int argc, char** argv) {
             }
          }
         
-        Mat image = screenRGB;
+        //Mat image = screenRGB;
+         //Mat image(screenRGB);
+         cv::Mat image = cv::cvarrToMat(screenRGB); 
 
         //write the data
         char buffer[100];
         char num_buffer[100];
         sprintf(num_buffer,"%d",frame);
-        char* basicdir = "/home/jason/machinelearning/end-to-end/torcs_ai/tools/images/";
+        char* basicdir = "/home/amax/data/torcs_data/";
         char* png = ".png";
         sprintf(buffer, "%.*s%d%.*s",strlen(basicdir), basicdir, frame,strlen(png), png);
         // Mat gray_image = Mat(result,true);
