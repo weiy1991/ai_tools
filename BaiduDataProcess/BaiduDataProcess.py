@@ -7,10 +7,10 @@ import numpy as np
 
 def getDataFromBaidu(imgPath, attrPath):
 	count=0
-	with h5py.File("/media/amax/abb05cc1-fac6-460e-b9d5-494d15881093/yuanwei/apollo/trainsets5/attr/426.h5", 'r') as fAttr:
+	with h5py.File(attrPath, 'r') as fAttr:
 		attr = fAttr['attrs'][:]
 		print((np.shape(attr)))
-		with h5py.File("/media/amax/abb05cc1-fac6-460e-b9d5-494d15881093/yuanwei/apollo/trainsets5/image/426.h5", 'r') as fImage:
+		with h5py.File(imgPath, 'r') as fImage:
 			for tImage in fImage:
 				print("count:",count)
 				print("steering:",attr[count][:])
